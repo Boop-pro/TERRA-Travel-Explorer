@@ -39,7 +39,7 @@ export const DESTINATIONS: Destination[] = [
         description:
           'A landmark UNESCO World Heritage site completed in 1605, holding the sacred mortal remains of St. Francis Xavier in Old Goa.',
         imageUrl:
-          'https://images.unsplash.com/photo-1600100397608-f010f443b793?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80',
       },
       {
         id: 'goa-dudhsagar',
@@ -47,7 +47,7 @@ export const DESTINATIONS: Destination[] = [
         description:
           'A dramatic four-tiered cascade resembling a sea of milk plunging 310 meters down the verdant Western Ghats cliffs.',
         imageUrl:
-          'https://images.unsplash.com/photo-1596761448651-6cae2fa517e6?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=800&q=80',
       },
     ],
   },
@@ -113,9 +113,9 @@ export const DESTINATIONS: Destination[] = [
       'Nestled on the northern Karnataka coastline, Gokarna balances two timeless worlds: a venerable Hindu pilgrimage town consecrated to Lord Shiva, and an untamed string of five secluded beaches carved between granite headlands. Pilgrims begin their dawn rituals at the ancient Mahabaleshwar Temple before bathing at the sacred Kotitirtha tank. Hikers and contemplative wanderers follow red-earth cliff paths linking Gokarna Beach to Kudle, Om Beach, Half Moon Beach, and the pristine Paradise Beach, where the ocean remains wild, free, and uncluttered.',
     bestTimeToVisit: 'October to March (Crisp ocean breeze, 20°C - 28°C)',
     heroImageUrl:
-      'https://images.unsplash.com/photo-1626014303757-646654e58b88?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&w=1400&q=80',
     thumbnailUrl:
-      'https://images.unsplash.com/photo-1626014303757-646654e58b88?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&w=600&q=80',
     coordinates: {
       latitude: 14.5479,
       longitude: 74.3188,
@@ -339,7 +339,7 @@ export const DESTINATIONS: Destination[] = [
         description:
           'An iconic five-story pink sandstone pyramid crowned with 953 ornate latticed casements built for royal court ladies.',
         imageUrl:
-          'https://images.unsplash.com/photo-1609137144820-7a08b3e58988?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80',
       },
       {
         id: 'jaipur-city-palace',
@@ -363,9 +363,9 @@ export const DESTINATIONS: Destination[] = [
       'In the 14th to 16th centuries, Vijayanagara was one of the largest and richest metropolises in the medieval world. Today, its UNESCO-inscribed ruins spread across 41 square kilometers of otherworldly ochre boulder hills. Coracle boats glide across the sacred Tungabhadra River, while the towering gopuram of Virupaksha Temple still rings with daily prayers as it has for over a thousand years. Bicycling through the royal enclosure reveals subterranean chambers, elephant stables, and the iconic stone chariot of Vittala Temple.',
     bestTimeToVisit: 'October to March (Crisp dry mornings & golden sunsets)',
     heroImageUrl:
-      'https://images.unsplash.com/photo-1600100397800-471018596f26?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1400&q=80',
     thumbnailUrl:
-      'https://images.unsplash.com/photo-1600100397800-471018596f26?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=600&q=80',
     coordinates: {
       latitude: 15.335,
       longitude: 76.46,
@@ -389,7 +389,7 @@ export const DESTINATIONS: Destination[] = [
         description:
           'A world-renowned monolithic shrine carved from granite blocks to resemble the mythical celestial vehicle of Garuda.',
         imageUrl:
-          'https://images.unsplash.com/photo-1629853699042-32b070fb1604?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=800&q=80',
       },
       {
         id: 'hampi-matanga',
@@ -439,7 +439,7 @@ export const DESTINATIONS: Destination[] = [
         description:
           'One of the twelve sacred Jyotirlingas, adorned with a 15.5-meter golden spire dedicated to Lord Shiva.',
         imageUrl:
-          'https://images.unsplash.com/photo-1545232979-fbf68fe9b10d?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=800&q=80',
       },
       {
         id: 'varanasi-sarnath',
@@ -489,7 +489,7 @@ export const DESTINATIONS: Destination[] = [
         description:
           'Historic wrought-iron suspension bridges spanning the turquoise Ganges, offering views of multi-tiered temples.',
         imageUrl:
-          'https://images.unsplash.com/photo-1596761448651-6cae2fa517e6?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80',
       },
       {
         id: 'rishikesh-beatles',
@@ -513,9 +513,9 @@ export const DESTINATIONS: Destination[] = [
       'Perched in the foothills of the Dhauladhar Range, the twin settlements of Bir and Billing form India’s free-flight capital. The take-off site at Billing (2,400m) offers ideal thermals and an exhilarating leap into the blue sky, gliding alongside eagles over terraced farms and pine canopies before touching down gracefully in Bir’s sunset landing fields. Bir itself is a serene Tibetan colony home to grand monasteries, butter lamp sanctuaries, organic bakeries, and mountain bicycling trails.',
     bestTimeToVisit: 'October to November (Best thermals & crystal flight visibility)',
     heroImageUrl:
-      'https://images.unsplash.com/photo-1508672019048-805b876b67e2?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1400&q=80',
     thumbnailUrl:
-      'https://images.unsplash.com/photo-1508672019048-805b876b67e2?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80',
     coordinates: {
       latitude: 32.0436,
       longitude: 76.7167,

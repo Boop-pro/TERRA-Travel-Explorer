@@ -72,7 +72,7 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}>
         {/* ================= HERO SECTION ================= */}
         <View style={styles.heroWrapper}>
-          <View style={styles.heroContainer}>
+          <View style={[styles.heroContainer, { flexDirection: isDesktop ? 'row' : 'column' }]}>
             <View style={styles.heroTextCol}>
               <View style={styles.taglineBadge}>
                 <MountainMotif size={18} color={Colors.terracotta} />
@@ -81,7 +81,14 @@ export default function HomeScreen() {
                 </Text>
               </View>
 
-              <Text style={styles.heroHeadline}>
+              <Text
+                style={[
+                  styles.heroHeadline,
+                  {
+                    fontSize: isDesktop ? 54 : 36,
+                    lineHeight: isDesktop ? 60 : 42,
+                  },
+                ]}>
                 A Deeper Way{'\n'}to Travel.
               </Text>
 
@@ -136,7 +143,7 @@ export default function HomeScreen() {
             </View>
 
             {/* Hero Editorial Photography */}
-            <View style={styles.heroImageCol}>
+            <View style={[styles.heroImageCol, { maxWidth: isDesktop ? 520 : '100%' }]}>
               <View style={styles.heroImageFrame}>
                 <Image
                   source={{
@@ -249,7 +256,7 @@ export default function HomeScreen() {
 
         {/* ================= EDITORIAL FOOTER ================= */}
         <View style={styles.footer}>
-          <View style={styles.footerInner}>
+          <View style={[styles.footerInner, { flexDirection: isDesktop ? 'row' : 'column' }]}>
             <View style={styles.footerBrandCol}>
               <View style={styles.footerBrand}>
                 <MountainMotif size={24} color={Colors.softCream} />

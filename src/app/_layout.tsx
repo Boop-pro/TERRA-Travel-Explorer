@@ -13,6 +13,7 @@ import {
   DMSans_500Medium,
   DMSans_700Bold,
 } from '@expo-google-fonts/dm-sans';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { WishlistProvider } from '@/context/WishlistContext';
 import { Colors } from '@/constants/theme';
@@ -28,6 +29,7 @@ export default function RootLayout() {
     DMSans_400Regular,
     DMSans_500Medium,
     DMSans_700Bold,
+    ...Ionicons.font,
   });
 
   useEffect(() => {

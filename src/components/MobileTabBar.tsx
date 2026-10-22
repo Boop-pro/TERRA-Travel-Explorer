@@ -52,7 +52,7 @@ export const MobileTabBar: React.FC = () => {
   ];
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} {...({ dataSet: { terraMobileBar: 'true' } } as any)}>
       {tabs.map((tab) => {
         const isActive =
           tab.path === '/' ? pathname === '/' : pathname.startsWith(tab.path);

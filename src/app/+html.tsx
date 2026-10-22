@@ -1,13 +1,15 @@
-import { ScrollViewStyleReset } from 'expo-router/html';
+import { ScrollViewStyleReset, useServerDocumentContext } from 'expo-router/html';
 import { type PropsWithChildren } from 'react';
 
 /**
  * Custom root HTML layout for Web deployment in Expo Router.
- * Injects Google Fonts (Cormorant Garamond & DM Sans) and metadata.
+ * Injects Google Fonts (Cormorant Garamond & DM Sans), RNW styles, and client hydration scripts.
  */
 export default function RootHtml({ children }: PropsWithChildren) {
+  const { headNodes, bodyNodes, htmlAttributes, bodyAttributes } = useServerDocumentContext();
+
   return (
-    <html lang="en">
+    <html {...htmlAttributes} lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
@@ -65,10 +67,20 @@ export default function RootHtml({ children }: PropsWithChildren) {
               background-color: #B96548;
               color: #FAF7F2;
             }
+            @media (min-width: 768px) {
+              [data-terra-mobile-bar] {
+                display: none !important;
+              }
+            }
           `
         }} />
+
+        {headNodes}
       </head>
-      <body>{children}</body>
+      <body {...bodyAttributes}>
+        {children}
+        {bodyNodes}
+      </body>
     </html>
   );
 }

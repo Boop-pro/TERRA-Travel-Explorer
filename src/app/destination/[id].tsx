@@ -20,6 +20,10 @@ import { Colors, Fonts, Spacing, Layout, Shadows } from '@/constants/theme';
 import { DESTINATIONS } from '@/data/destinations';
 import { useWishlist } from '@/context/WishlistContext';
 
+export function generateStaticParams(): { id: string }[] {
+  return DESTINATIONS.map((d) => ({ id: d.id }));
+}
+
 export default function DestinationDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
@@ -153,13 +157,29 @@ export default function DestinationDetailsScreen() {
                   </View>
                 </View>
 
-                <Text style={styles.heroTitle}>{destination.name}</Text>
+                <Text
+                  style={[
+                    styles.heroTitle,
+                    {
+                      fontSize: isDesktop ? 52 : 32,
+                      lineHeight: isDesktop ? 56 : 38,
+                    },
+                  ]}>
+                  {destination.name}
+                </Text>
                 <Text style={styles.heroTagline}>{destination.tagline}</Text>
               </View>
             </View>
 
             {/* Quick Actions Bar */}
-            <View style={styles.actionsBar}>
+            <View
+              style={[
+                styles.actionsBar,
+                {
+                  flexDirection: isDesktop ? 'row' : 'column',
+                  alignItems: isDesktop ? 'center' : 'stretch',
+                },
+              ]}>
               <View style={styles.quickInfoChips}>
                 <View style={styles.infoChip}>
                   <Ionicons name="calendar-outline" size={15} color={Colors.terracotta} />
@@ -182,7 +202,7 @@ export default function DestinationDetailsScreen() {
                 </View>
               </View>
 
-              <View style={styles.actionButtonsGroup}>
+              <View style={[styles.actionButtonsGroup, { width: isDesktop ? 'auto' : '100%' }]}>
                 {/* Wishlist Button */}
                 <Pressable
                   accessibilityRole="button"
@@ -192,6 +212,7 @@ export default function DestinationDetailsScreen() {
                   onPress={() => toggleWishlist(destination.id)}
                   style={({ pressed }) => [
                     styles.wishlistActionBtn,
+                    { flex: isDesktop ? 0 : 1 },
                     wishlisted && styles.wishlistActionBtnActive,
                     pressed && styles.pressed,
                   ]}>
@@ -216,6 +237,7 @@ export default function DestinationDetailsScreen() {
                   onPress={handleOpenMaps}
                   style={({ pressed }) => [
                     styles.mapsActionBtn,
+                    { flex: isDesktop ? 0 : 1 },
                     pressed && styles.pressed,
                   ]}>
                   <Ionicons name="map-outline" size={17} color={Colors.softCream} />
@@ -228,7 +250,7 @@ export default function DestinationDetailsScreen() {
 
         {/* ================= DETAILS BODY ================= */}
         <View style={styles.bodySection}>
-          <View style={styles.bodyInner}>
+          <View style={[styles.bodyInner, { flexDirection: isDesktop ? 'row' : 'column' }]}>
             {/* Left Column: Editorial Narrative & Attractions */}
             <View style={styles.leftCol}>
               {/* Editorial Story */}
