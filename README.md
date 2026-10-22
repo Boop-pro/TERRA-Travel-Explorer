@@ -31,6 +31,24 @@ Moving beyond generic, saturated blue travel apps, TERRA draws deep visual inspi
 
 ---
 
+## 📸 Visual Showcase & Screen Previews
+
+### Desktop Editorial Views (1280px Viewport)
+| Discovery & Home | Explore & Filtering Directory |
+| :---: | :---: |
+| ![Desktop Discovery](assets/screenshots/desktop_home.png) | ![Desktop Explore](assets/screenshots/desktop_explore.png) |
+
+| Destination Details (Gulmarg) | Deterministic Travel Matcher |
+| :---: | :---: |
+| ![Desktop Details](assets/screenshots/desktop_destination_gulmarg.png) | ![Desktop Matcher](assets/screenshots/desktop_find_escape.png) |
+
+### Mobile Views (390px Mobile Viewport)
+| Discovery Home | Destination Details | Smart Matcher | Saved Wishlist |
+| :---: | :---: | :---: | :---: |
+| ![Mobile Home](assets/screenshots/mobile_home.png) | ![Mobile Details](assets/screenshots/mobile_destination_gulmarg.png) | ![Mobile Matcher](assets/screenshots/mobile_find_escape.png) | ![Mobile Wishlist](assets/screenshots/mobile_wishlist.png) |
+
+---
+
 ## ✨ Features & User Flows
 
 ### 1. Home / Editorial Destination Discovery
