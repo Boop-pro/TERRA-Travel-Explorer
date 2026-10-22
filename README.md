@@ -1,6 +1,8 @@
 # TERRA — A Deeper Way to Travel
 ### Travel Explorer India | GDGC VNRVJIET App Development Recruitment Assignment
 
+[![Live Web Application](https://img.shields.io/badge/Live%20Web%20App-terra.expo.app-20382B?style=for-the-badge&logo=google-chrome&logoColor=white)](https://terra.expo.app)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-TERRA--Travel--Explorer-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Boop-pro/TERRA-Travel-Explorer)
 [![Expo](https://img.shields.io/badge/Expo-SDK%2058-000020?style=for-the-badge&logo=expo&logoColor=white)](https://expo.dev)
 [![React Native](https://img.shields.io/badge/React%20Native-0.88-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactnative.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
@@ -143,8 +145,8 @@ TERRA/
 
 ### 1. Clone & Install Dependencies
 ```bash
-git clone <repository-url>
-cd TERRA
+git clone https://github.com/Boop-pro/TERRA-Travel-Explorer.git
+cd TERRA-Travel-Explorer
 npm install
 ```
 
@@ -176,17 +178,16 @@ npx expo export --platform web
 
 ## 📦 Deployment & Android Distribution
 
-### Web Deployment (EAS Hosting / Static Web)
-The application is pre-configured for **Expo EAS Hosting** and static web serving:
+### Web Deployment (EAS Hosting)
+The application is deployed live via **Expo EAS Hosting**:
+- 🌐 **Production URL**: [https://terra.expo.app](https://terra.expo.app)
+- 🚀 **EAS Dashboard**: [https://expo.dev/projects/9b555cf2-7d4b-480a-a23f-153b466301a1/hosting/deployments](https://expo.dev/projects/9b555cf2-7d4b-480a-a23f-153b466301a1/hosting/deployments)
+- 📦 **GitHub Repository**: [https://github.com/Boop-pro/TERRA-Travel-Explorer](https://github.com/Boop-pro/TERRA-Travel-Explorer)
+
 ```bash
-# Log in to Expo
-npx eas-cli login
-
-# Export web build
+# To deploy updates:
 npx expo export --platform web
-
-# Deploy via EAS Hosting
-npx eas-cli deploy
+npx eas-cli deploy --prod
 ```
 
 ### Android Standalone APK Build
