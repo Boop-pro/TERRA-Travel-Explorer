@@ -1,180 +1,409 @@
-import { Image } from 'expo-image';
-import { SymbolView } from 'expo-symbols';
-import { Platform, Pressable, ScrollView, StyleSheet } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import React, { useState, useMemo } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Pressable,
+  TextInput,
+  useWindowDimensions,
+  Platform,
+} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { EditorialHeader } from '@/components/EditorialHeader';
+import { CategoryChips } from '@/components/CategoryChips';
+import { DestinationCard } from '@/components/DestinationCard';
+import { EmptyState } from '@/components/EmptyState';
+import { Colors, Fonts, Spacing, Layout } from '@/constants/theme';
+import { DESTINATIONS } from '@/data/destinations';
+import { Category, BudgetLevel } from '@/types';
 
-import { ExternalLink } from '@/components/external-link';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Collapsible } from '@/components/ui/collapsible';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-import { useTheme } from '@/hooks/use-theme';
+export default function ExploreScreen() {
+  const { width } = useWindowDimensions();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<Category>('All');
+  const [selectedBudget, setSelectedBudget] = useState<'All' | BudgetLevel>('All');
 
-export default function TabTwoScreen() {
-  const safeAreaInsets = useSafeAreaInsets();
-  const insets = {
-    ...safeAreaInsets,
-    bottom: safeAreaInsets.bottom + BottomTabInset + Spacing.three,
+  const isDesktop = width >= 992;
+  const isTablet = width >= 640 && width < 992;
+
+  // Simultaneous Search & Multi-filtering
+  const filteredDestinations = useMemo(() => {
+    return DESTINATIONS.filter((item) => {
+      // Category filter
+      const matchesCategory =
+        selectedCategory === 'All' || item.category === selectedCategory;
+
+      // Budget filter
+      const matchesBudget =
+        selectedBudget === 'All' || item.budget === selectedBudget;
+
+      // Case-insensitive Search by destination name or state or tagline
+      const query = searchQuery.toLowerCase().trim();
+      const matchesSearch =
+        !query ||
+        item.name.toLowerCase().includes(query) ||
+        item.state.toLowerCase().includes(query) ||
+        item.description.toLowerCase().includes(query) ||
+        item.attractions.some((a) => a.name.toLowerCase().includes(query));
+
+      return matchesCategory && matchesBudget && matchesSearch;
+    });
+  }, [searchQuery, selectedCategory, selectedBudget]);
+
+  // Compute category counts
+  const categoryCounts = useMemo(() => {
+    const counts: Partial<Record<Category, number>> = { All: DESTINATIONS.length };
+    DESTINATIONS.forEach((d) => {
+      counts[d.category] = (counts[d.category] || 0) + 1;
+    });
+    return counts;
+  }, []);
+
+  const handleResetFilters = () => {
+    setSearchQuery('');
+    setSelectedCategory('All');
+    setSelectedBudget('All');
   };
-  const theme = useTheme();
 
-  const contentPlatformStyle = Platform.select({
-    android: {
-      paddingTop: insets.top,
-      paddingLeft: insets.left,
-      paddingRight: insets.right,
-      paddingBottom: insets.bottom,
-    },
-    web: {
-      paddingTop: Spacing.six,
-      paddingBottom: Spacing.four,
-    },
-  });
+  const hasActiveFilters =
+    searchQuery.trim().length > 0 ||
+    selectedCategory !== 'All' ||
+    selectedBudget !== 'All';
+
+  // Responsive grid columns
+  const gridColumns = isDesktop ? 3 : isTablet ? 2 : 1;
+  const cardWidth =
+    gridColumns === 3
+      ? '31.6%'
+      : gridColumns === 2
+      ? '48.5%'
+      : '100%';
 
   return (
-    <ScrollView
-      style={[styles.scrollView, { backgroundColor: theme.background }]}
-      contentInset={insets}
-      contentContainerStyle={[styles.contentContainer, contentPlatformStyle]}>
-      <ThemedView style={styles.container}>
-        <ThemedView style={styles.titleContainer}>
-          <ThemedText type="subtitle">Explore</ThemedText>
-          <ThemedText style={styles.centerText} themeColor="textSecondary">
-            This starter app includes example{'\n'}code to help you get started.
-          </ThemedText>
+    <View style={styles.screen}>
+      <EditorialHeader />
 
-          <ExternalLink href="https://docs.expo.dev" asChild>
-            <Pressable style={({ pressed }) => pressed && styles.pressed}>
-              <ThemedView type="backgroundElement" style={styles.linkButton}>
-                <ThemedText type="link">Expo documentation</ThemedText>
-                <SymbolView
-                  tintColor={theme.text}
-                  name={{ ios: 'arrow.up.right.square', android: 'link', web: 'link' }}
-                  size={12}
-                />
-              </ThemedView>
-            </Pressable>
-          </ExternalLink>
-        </ThemedView>
+      <ScrollView
+        contentContainerStyle={[
+          styles.scrollContent,
+          !isDesktop && styles.scrollContentMobile,
+        ]}
+        showsVerticalScrollIndicator={false}>
+        {/* Directory Header */}
+        <View style={styles.headerWrapper}>
+          <View style={styles.headerInner}>
+            <View style={styles.breadcrumb}>
+              <Text style={styles.breadcrumbMuted}>TERRA</Text>
+              <Ionicons name="chevron-forward" size={12} color={Colors.mutedOlive} />
+              <Text style={styles.breadcrumbActive}>EXPLORE SANCTUARIES</Text>
+            </View>
 
-        <ThemedView style={styles.sectionsWrapper}>
-          <Collapsible title="File-based routing">
-            <ThemedText type="small">
-              This app has two screens: <ThemedText type="code">src/app/index.tsx</ThemedText> and{' '}
-              <ThemedText type="code">src/app/explore.tsx</ThemedText>
-            </ThemedText>
-            <ThemedText type="small">
-              The layout file in <ThemedText type="code">src/app/_layout.tsx</ThemedText> sets up
-              the tab navigator.
-            </ThemedText>
-            <ExternalLink href="https://docs.expo.dev/router/introduction">
-              <ThemedText type="linkPrimary">Learn more</ThemedText>
-            </ExternalLink>
-          </Collapsible>
+            <View style={styles.titleRow}>
+              <View>
+                <Text style={styles.title}>Explore Sanctuaries</Text>
+                <Text style={styles.subtitle}>
+                  Filter across India’s coastal frontiers, sacred monuments, and
+                  Himalayan ridge lines.
+                </Text>
+              </View>
 
-          <Collapsible title="Android, iOS, and web support">
-            <ThemedView type="backgroundElement" style={styles.collapsibleContent}>
-              <ThemedText type="small">
-                You can open this project on Android, iOS, and the web. To open the web version,
-                press <ThemedText type="smallBold">w</ThemedText> in the terminal running this
-                project.
-              </ThemedText>
-              <Image
-                source={require('@/assets/images/tutorial-web.png')}
-                style={styles.imageTutorial}
+              {hasActiveFilters && (
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel="Reset all filters"
+                  onPress={handleResetFilters}
+                  style={({ pressed }) => [
+                    styles.resetBtn,
+                    pressed && styles.pressed,
+                  ]}>
+                  <Ionicons name="refresh-outline" size={14} color={Colors.terracotta} />
+                  <Text style={styles.resetBtnText}>Reset All</Text>
+                </Pressable>
+              )}
+            </View>
+
+            {/* Live Search Bar */}
+            <View style={styles.searchBar}>
+              <Ionicons name="search" size={19} color={Colors.forestGreen} />
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Search by destination name, state, or attraction..."
+                placeholderTextColor={Colors.mutedText}
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+                clearButtonMode="while-editing"
               />
-            </ThemedView>
-          </Collapsible>
+              {searchQuery.length > 0 && (
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={() => setSearchQuery('')}
+                  style={styles.clearBtn}>
+                  <Ionicons name="close-circle" size={18} color={Colors.mutedOlive} />
+                </Pressable>
+              )}
+            </View>
 
-          <Collapsible title="Images">
-            <ThemedText type="small">
-              For static images, you can use the <ThemedText type="code">@2x</ThemedText> and{' '}
-              <ThemedText type="code">@3x</ThemedText> suffixes to provide files for different
-              screen densities.
-            </ThemedText>
-            <Image source={require('@/assets/images/react-logo.png')} style={styles.imageReact} />
-            <ExternalLink href="https://reactnative.dev/docs/images">
-              <ThemedText type="linkPrimary">Learn more</ThemedText>
-            </ExternalLink>
-          </Collapsible>
+            {/* Category Filters */}
+            <View style={styles.filterSection}>
+              <Text style={styles.filterLabel}>TERRAIN / CATEGORY</Text>
+              <CategoryChips
+                selectedCategory={selectedCategory}
+                onSelectCategory={setSelectedCategory}
+                counts={categoryCounts}
+              />
+            </View>
 
-          <Collapsible title="Light and dark mode components">
-            <ThemedText type="small">
-              This template has light and dark mode support. The{' '}
-              <ThemedText type="code">useColorScheme()</ThemedText> hook lets you inspect what the
-              user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-            </ThemedText>
-            <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-              <ThemedText type="linkPrimary">Learn more</ThemedText>
-            </ExternalLink>
-          </Collapsible>
+            {/* Budget Filters */}
+            <View style={styles.budgetRow}>
+              <Text style={styles.filterLabel}>BUDGET TIER</Text>
+              <View style={styles.budgetChips}>
+                {(['All', 'Budget', 'Moderate', 'Luxury'] as const).map((tier) => {
+                  const isSelected = selectedBudget === tier;
+                  return (
+                    <Pressable
+                      key={tier}
+                      accessibilityRole="button"
+                      onPress={() => setSelectedBudget(tier)}
+                      style={[
+                        styles.budgetChip,
+                        isSelected && styles.budgetChipSelected,
+                      ]}>
+                      <Text
+                        style={[
+                          styles.budgetChipText,
+                          isSelected && styles.budgetChipTextSelected,
+                        ]}>
+                        {tier === 'All' ? 'All Budgets' : tier}
+                      </Text>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            </View>
+          </View>
+        </View>
 
-          <Collapsible title="Animations">
-            <ThemedText type="small">
-              This template includes an example of an animated component. The{' '}
-              <ThemedText type="code">src/components/ui/collapsible.tsx</ThemedText> component uses
-              the powerful <ThemedText type="code">react-native-reanimated</ThemedText> library to
-              animate opening this hint.
-            </ThemedText>
-          </Collapsible>
-        </ThemedView>
-        {Platform.OS === 'web' && <WebBadge />}
-      </ThemedView>
-    </ScrollView>
+        {/* Results Grid */}
+        <View style={styles.resultsWrapper}>
+          <View style={styles.resultsHeader}>
+            <Text style={styles.resultsCount}>
+              Showing <Text style={styles.boldText}>{filteredDestinations.length}</Text>{' '}
+              {filteredDestinations.length === 1 ? 'escape' : 'escapes'}
+            </Text>
+
+            {hasActiveFilters && (
+              <View style={styles.activeFilterPill}>
+                <Ionicons name="funnel" size={12} color={Colors.terracotta} />
+                <Text style={styles.activeFilterText}>Filters Active</Text>
+              </View>
+            )}
+          </View>
+
+          {filteredDestinations.length > 0 ? (
+            <View style={styles.grid}>
+              {filteredDestinations.map((destination) => (
+                <View key={destination.id} style={{ width: cardWidth }}>
+                  <DestinationCard destination={destination} />
+                </View>
+              ))}
+            </View>
+          ) : (
+            <EmptyState
+              icon="compass-outline"
+              title="No Matching Sanctuaries"
+              description="No destinations match your combination of category, budget, and search query. Reset your filters to explore the full collection."
+              actionLabel="Clear All Filters"
+              onAction={handleResetFilters}
+            />
+          )}
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  scrollView: {
+  screen: {
     flex: 1,
+    backgroundColor: Colors.background,
   },
-  contentContainer: {
+  scrollContent: {
+    paddingBottom: 40,
+  },
+  scrollContentMobile: {
+    paddingBottom: 90,
+  },
+  headerWrapper: {
+    backgroundColor: Colors.paperLight,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.cardBorder,
+    paddingVertical: Spacing.xl,
+    paddingHorizontal: Spacing.lg,
+  },
+  headerInner: {
+    maxWidth: Layout.maxWidth,
+    width: '100%',
+    marginHorizontal: 'auto',
+    gap: Spacing.md,
+  },
+  breadcrumb: {
     flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  container: {
-    maxWidth: MaxContentWidth,
-    flexGrow: 1,
-  },
-  titleContainer: {
-    gap: Spacing.three,
     alignItems: 'center',
-    paddingHorizontal: Spacing.four,
-    paddingVertical: Spacing.six,
+    gap: 6,
   },
-  centerText: {
-    textAlign: 'center',
+  breadcrumbMuted: {
+    fontFamily: Fonts.sansBold,
+    fontSize: 10,
+    letterSpacing: 1.5,
+    color: Colors.mutedOlive,
+  },
+  breadcrumbActive: {
+    fontFamily: Fonts.sansBold,
+    fontSize: 10,
+    letterSpacing: 1.5,
+    color: Colors.terracotta,
+  },
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    gap: Spacing.md,
+  },
+  title: {
+    fontFamily: Fonts.serifBold,
+    fontSize: 38,
+    color: Colors.forestGreen,
+  },
+  subtitle: {
+    fontFamily: Fonts.sansRegular,
+    fontSize: 15,
+    color: Colors.mutedText,
+    marginTop: 4,
+    maxWidth: 600,
+  },
+  resetBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: Colors.softCream,
+    borderWidth: 1,
+    borderColor: Colors.terracotta,
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: Layout.borderRadiusPill,
+    alignSelf: 'center',
+  },
+  resetBtnText: {
+    fontFamily: Fonts.sansMedium,
+    fontSize: 12,
+    color: Colors.terracotta,
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.background,
+    borderWidth: 1,
+    borderColor: Colors.cardBorder,
+    borderRadius: Layout.borderRadiusPill,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Platform.OS === 'ios' ? 12 : 9,
+    gap: 10,
+    marginTop: Spacing.xs,
+  },
+  searchInput: {
+    flex: 1,
+    fontFamily: Fonts.sansRegular,
+    fontSize: 15,
+    color: Colors.darkText,
+    outlineStyle: 'none' as any,
+  },
+  clearBtn: {
+    padding: 4,
+  },
+  filterSection: {
+    gap: 6,
+  },
+  filterLabel: {
+    fontFamily: Fonts.sansBold,
+    fontSize: 10.5,
+    letterSpacing: 1.5,
+    color: Colors.mutedOlive,
+  },
+  budgetRow: {
+    gap: 8,
+    marginTop: 4,
+  },
+  budgetChips: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  budgetChip: {
+    paddingVertical: 7,
+    paddingHorizontal: 14,
+    borderRadius: Layout.borderRadiusPill,
+    backgroundColor: Colors.background,
+    borderWidth: 1,
+    borderColor: Colors.cardBorder,
+  },
+  budgetChipSelected: {
+    backgroundColor: Colors.terracotta,
+    borderColor: Colors.terracotta,
+  },
+  budgetChipText: {
+    fontFamily: Fonts.sansMedium,
+    fontSize: 12,
+    color: Colors.darkText,
+  },
+  budgetChipTextSelected: {
+    color: Colors.white,
+    fontFamily: Fonts.sansBold,
+  },
+  resultsWrapper: {
+    maxWidth: Layout.maxWidth,
+    width: '100%',
+    marginHorizontal: 'auto',
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.xl,
+    gap: Spacing.md,
+  },
+  resultsHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  resultsCount: {
+    fontFamily: Fonts.sansRegular,
+    fontSize: 14,
+    color: Colors.mutedText,
+  },
+  boldText: {
+    fontFamily: Fonts.sansBold,
+    color: Colors.forestGreen,
+  },
+  activeFilterPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: 'rgba(185, 101, 72, 0.1)',
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: Layout.borderRadiusPill,
+  },
+  activeFilterText: {
+    fontFamily: Fonts.sansMedium,
+    fontSize: 11,
+    color: Colors.terracotta,
+  },
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: Spacing.md,
   },
   pressed: {
-    opacity: 0.7,
-  },
-  linkButton: {
-    flexDirection: 'row',
-    paddingHorizontal: Spacing.four,
-    paddingVertical: Spacing.two,
-    borderRadius: Spacing.five,
-    justifyContent: 'center',
-    gap: Spacing.one,
-    alignItems: 'center',
-  },
-  sectionsWrapper: {
-    gap: Spacing.five,
-    paddingHorizontal: Spacing.four,
-    paddingTop: Spacing.three,
-  },
-  collapsibleContent: {
-    alignItems: 'center',
-  },
-  imageTutorial: {
-    width: '100%',
-    aspectRatio: 296 / 171,
-    borderRadius: Spacing.three,
-    marginTop: Spacing.two,
-  },
-  imageReact: {
-    width: 100,
-    height: 100,
-    alignSelf: 'center',
+    opacity: 0.8,
   },
 });
